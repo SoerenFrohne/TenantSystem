@@ -7,7 +7,7 @@
 * Erster Start über _Gradle > MockMieter > Tasks > application > run_
 
 ### Lombok
-Das Projekt nutzt zur besseren Übersichtlichkeit (Lombok)[https://projectlombok.org/]. Von daher sollte sichergestellt werden, dass IntelliJ das (Lombok-Plugin)[https://projectlombok.org/setup/intellij] aktiviert und der Annotation Processor aktiviert ist: _Preferences > Build, Execution, Deployment > Compiler > Annotation Processors > Enable annotation processing box + Obtain processors from project classpath_
+Das Projekt nutzt zur besseren Übersichtlichkeit [Lombok](https://projectlombok.org/). Von daher sollte sichergestellt werden, dass IntelliJ das [Lombok-Plugin](https://projectlombok.org/setup/intellij) aktiviert und der Annotation Processor aktiviert ist: _Preferences > Build, Execution, Deployment > Compiler > Annotation Processors > Enable annotation processing box + Obtain processors from project classpath_
 
 ## Troubleshooting
 > Class has been compiled by a more recent version of the Java Environment

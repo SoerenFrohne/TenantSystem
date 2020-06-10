@@ -9,21 +9,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DatabaseService {
 
     @Setter @Getter private Statement statement;
 
     public Apartment[] readApartments() throws SQLException {
-        // ResultSet result = statement.executeQuery("SELECT * FROM APARTMENTS");
-        //Todo
-        return new Apartment[]{
-                new Apartment("Keller" , 460, 56, 17350),
-                new Apartment("EG" , 580, 64, 18750),
-                new Apartment("1. OG" , 600, 68, 17645),
-                new Apartment("2. OG" , 600, 68, 16050),
-        };
+        ResultSet result = statement.executeQuery("SELECT * FROM APARTMENTS");
+
+        ArrayList<Apartment> apartments = new ArrayList<>();
+
+        while (result.next()) {
+            apartments.add(
+                    new Apartment(result.getString(1), result.getDouble(2),
+                            result.getInt(3), result.getInt(4)));
+        }
+
+        result.close();
+        return apartments.toArray(new Apartment[0]);
     }
 
     public Tenant[] readTenants() throws SQLException {

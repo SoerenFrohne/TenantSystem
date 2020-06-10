@@ -2,10 +2,12 @@ package tenantsystem.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import tenantsystem.editor.IMenuItem;
+import tenantsystem.session.Session;
 
 @Data
 @AllArgsConstructor
-public class Tenant {
+public class Tenant implements IMenuItem {
     public String firstName;
     public String lastName;
     public String address;
@@ -14,7 +16,13 @@ public class Tenant {
 
     @Override
     public String toString() {
-        return address + ", " + lastName;
+        return lastName + ", " + firstName;
+    }
+
+    @Override
+    public String getFxmlPath() {
+        Session.INSTANCE.setCurrentTenant(this);
+        return "/gui/tenant.fxml";
     }
 }
 

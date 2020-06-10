@@ -6,12 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
+import tenantsystem.core.Apartment;
 import tenantsystem.core.Building;
 import tenantsystem.core.Tenant;
+import tenantsystem.session.Session;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainFrameControl {
     public TreeView<IMenuItem> treeview;
@@ -23,27 +26,36 @@ public class MainFrameControl {
     }
 
     private void loadExampleData() {
-        Building building = new Building("Musterstraße 3", "53756", "Musterhausen", "Rheinland-Pfalz", "Deutschland", new ArrayList<>());
-        building.getTenants().add(new Tenant("Max", "Mustermann", "Musterstraße 3", "0123456", "DE12500105170648489890", LocalDate.of(1990, 12, 31)));
-        building.getTenants().add(new Tenant("Mia", "Musterfrau", "Musterstraße 3", "0123456", "DE12500105170648489890", LocalDate.of(1990, 12, 31)));
-        TreeItem<IMenuItem> rootItem = new TreeItem<>(building);
-        rootItem.setExpanded(true);
+        try {
+            Building building = new Building("Musterstraße 3", "53756", "Musterhausen", "Rheinland-Pfalz", "Deutschland");
+            building.getTenants().addAll(Arrays.asList(Session.INSTANCE.getTenants()));
+            Apartment[] apartments = Session.INSTANCE.getApartments();
 
-        for (Tenant t : building.getTenants()) {
-            rootItem.getChildren().add(new TreeItem<>(t));
-        }
+            TreeItem<IMenuItem> rootItem = new TreeItem<>(building);
+            rootItem.setExpanded(true);
 
-        treeview.setRoot(rootItem);
-
-        // Change Menu depending on class
-        treeview.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource(newValue.getValue().getFxmlPath()));
-                borderPane.setCenter(root);
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            for (int i = 0; i < building.getTenants().size(); i++) {
+                Tenant t = building.getTenants().get(i);
+                building.moveIn(apartments[i], t);
+                rootItem.getChildren().add(new TreeItem<>(t));
             }
-        });
+
+            treeview.setRoot(rootItem);
+
+            // Change Menu depending on class
+            treeview.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource(newValue.getValue().getFxmlPath()));
+                    borderPane.setCenter(root);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            treeview.getSelectionModel().select(0);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

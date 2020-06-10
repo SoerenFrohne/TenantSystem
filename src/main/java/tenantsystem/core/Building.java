@@ -1,24 +1,34 @@
 package tenantsystem.core;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import tenantsystem.editor.IMenuItem;
 import tenantsystem.session.Session;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
 public class Building implements IMenuItem {
-    private String streetAddress;
-    private String postalCode;
-    private String city;
-    private String region;
-    private String country;
+    @NonNull private String streetAddress;
+    @NonNull private String postalCode;
+    @NonNull private String city;
+    @NonNull private String region;
+    @NonNull private String country;
 
-    private ArrayList<Tenant> tenants;
+    private ArrayList<Tenant> tenants = new ArrayList<>();
+    private ArrayList<Tenant> apartments = new ArrayList<>();
+    private HashMap<Tenant, Apartment> apartmentTenantMap = new HashMap<>();
+
+    public Apartment getApartment(Tenant t) {
+        return apartmentTenantMap.get(t);
+    }
+
+    public void moveIn(Apartment a, Tenant t) {
+        apartmentTenantMap.put(t, a);
+    }
+
 
     @Override
     public String toString() {

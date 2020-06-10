@@ -13,6 +13,8 @@ public class TenantControl {
     public TextField birthdayField;
     public TextField telephoneField;
     public TextField ibanField;
+    public TextField apartmentSizeField;
+    public TextField apartmentLabelField;
 
 
     @FXML
@@ -22,5 +24,8 @@ public class TenantControl {
         telephoneField.setText(Session.INSTANCE.getCurrentTenant().getPhoneNumber());
         birthdayField.setText(Session.INSTANCE.getCurrentTenant().getBirthday().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))); //.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.LONG)));
         ibanField.setText(Session.INSTANCE.getCurrentTenant().getIban());
+
+        apartmentLabelField.setText(Session.INSTANCE.getCurrentApartment().getLabel());
+        apartmentSizeField.setText(String.valueOf(Session.INSTANCE.getCurrentApartment().getApartmentUnit()));
     }
 }

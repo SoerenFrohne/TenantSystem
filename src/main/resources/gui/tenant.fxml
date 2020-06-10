@@ -15,8 +15,6 @@
                      <children>
                         <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="16.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="32.0">
                            <children>
-                              <HBox />
-                              <HBox layoutX="10.0" layoutY="94.0" />
                               <Label layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Objektdaten">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
@@ -24,25 +22,24 @@
                               </Label>
                               <HBox>
                                  <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="96.0" text="Bezeichnung">
+                                       <HBox.margin>
+                                          <Insets right="8.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField fx:id="apartmentLabelField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="10.0" layoutY="85.0">
+                                 <children>
                                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="96.0" text="Wohnfläche">
                                        <HBox.margin>
                                           <Insets right="8.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="apartmentSizeField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <HBox>
-                                 <children>
-                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="96.0" text="Garage">
-                                       <HBox.margin>
-                                          <Insets right="8.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <ChoiceBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                                 </children>
-                              </HBox>
-                              <HBox />
                               <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Änderungen speichern" />
                            </children>
                         </VBox>

@@ -5,6 +5,11 @@ import org.mockito.Mockito;
 import tenantsystem.core.HandleTenant;
 import tenantsystem.core.Tenant;
 import tenantsystem.core.CheckTenant;
+import tenantsystem.db.DbAction;
+import tenantsystem.db.DbMock;
+
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class MainTest {
 
@@ -15,10 +20,16 @@ public class MainTest {
     private String validIban = "DE 123";
     private String invalidIban = "12 123";
 
+    private Statement db;
+    private DbAction dbAction = new DbAction();
+
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         handleTenant = new HandleTenant();
         handleTenant.setCheckTenant(val);
+
+        db = new DbMock().dbErstellen();
+        dbAction.setStatement(db);
     }
 
     @Test
@@ -61,6 +72,14 @@ public class MainTest {
 
         handleTenant.setAddress(p, newAddress);
         Assert.assertTrue(newAddress == p.getAddress());
+    }
+
+    @Test
+    public void dbAction() throws SQLException {
+
+        Tenant[] tenants = dbAction.readTenats();
+
+        Assert.assertTrue(4 == tenants.length);
     }
 
 }

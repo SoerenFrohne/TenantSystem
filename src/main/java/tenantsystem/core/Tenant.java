@@ -5,14 +5,17 @@ import lombok.Data;
 import tenantsystem.editor.IMenuItem;
 import tenantsystem.session.Session;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 public class Tenant implements IMenuItem {
-    public String firstName;
-    public String lastName;
-    public String address;
-    public String phoneNumber;
-    public String iban;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String phoneNumber;
+    private String iban;
+    private LocalDate birthday;
 
     @Override
     public String toString() {

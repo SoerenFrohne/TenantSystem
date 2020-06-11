@@ -18,14 +18,6 @@ public class Tenant implements IMenuItem {
     private String iban;
     private LocalDate birthday;
 
-    public void setAddress(String address) {
-        if (Utils.validateAddress(address)) this.address = address;
-    }
-
-    public void setIban(String iban) {
-        if(Utils.validateIban(iban)) this.iban = iban;
-    }
-
     @Override
     public String toString() {
         return lastName + ", " + firstName;

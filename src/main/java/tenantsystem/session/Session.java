@@ -5,6 +5,7 @@ import lombok.Setter;
 import tenantsystem.core.Apartment;
 import tenantsystem.core.Building;
 import tenantsystem.core.Tenant;
+import tenantsystem.core.utils.Utils;
 import tenantsystem.db.DatabaseService;
 import tenantsystem.db.DatabaseMock;
 
@@ -18,6 +19,7 @@ public enum Session {
     INSTANCE;
 
     @Getter private final DatabaseService databaseService = new DatabaseService();
+    @Getter @Setter private Utils utils;
 
     @Getter @Setter private Building currentBuilding;
     @Getter @Setter private Tenant currentTenant;
@@ -41,5 +43,16 @@ public enum Session {
 
     public Apartment[] getApartments() throws SQLException {
         return databaseService.readApartments();
+    }
+
+    //check the address and update it if is valid.
+    public void updateAddress (Tenant p, String newAddress) throws Exception {
+        if (p == null)
+            throw new NullPointerException();
+
+        if (utils.validateAddress(newAddress))
+            p.setAddress(newAddress);
+        else
+            throw new Exception("Not Updated");
     }
 }

@@ -3,11 +3,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import tenantsystem.core.Tenant;
+import tenantsystem.core.utils.Utils;
 import tenantsystem.db.DatabaseService;
-import tenantsystem.db.DatabaseMock;
+import tenantsystem.session.Session;
+
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.anyString;
 
 public class MainTest {
 
@@ -17,6 +23,7 @@ public class MainTest {
 
     private Statement db;
     private final DatabaseService databaseService = new DatabaseService();
+
 
 //    @Before
 //    public void setUp() throws Exception {
@@ -56,18 +63,34 @@ public class MainTest {
 //        Mockito.verify(p, Mockito.times(1)).setAddress(newAddress);
 //    }
 //
-//    @Test
-//    public void state(){
-//        Tenant p = new Tenant("","","","","");
-//
-//        Mockito.when(val.validateAddress(newAddress)).thenReturn(false,true);
-//
-//        handleTenant.setAddress(p, newAddress);
-//        Assert.assertFalse(newAddress == p.getAddress());
-//
-//        handleTenant.setAddress(p, newAddress);
-//        Assert.assertTrue(newAddress == p.getAddress());
-//    }
+    @Test
+    public void state() throws Exception {
+        Tenant actualTenat = new Tenant("", "","","","", LocalDate.of(1990, 12, 31));
+
+        final Utils utils = Mockito.mock(Utils.class);
+        Session session = Session.INSTANCE;
+        session.setUtils(utils);
+
+        Mockito.when(utils.validateAddress("abc")).thenReturn(true);
+        try {
+            session.updateAddress(actualTenat, "abc");
+        }
+        catch (Exception e) {
+            fail("not expected");
+        }
+        Assert.assertEquals("abc", actualTenat.getAddress());
+
+
+        Mockito.when(utils.validateAddress(anyString())).thenReturn(false);
+        try {
+              session.updateAddress(actualTenat, "XXX");
+              fail("No Exeption thrown on UpdateAddress");              //only reached when Exception is not thrown
+        }
+        catch (Exception e) {
+            Assert.assertTrue("Not Updated" == e.getMessage()); //check the Exception
+        }
+        Assert.assertEquals("abc", actualTenat.getAddress());   //Check state of tenant, should not changed!!!
+    }
 
     @Test
     public void dbAction() throws SQLException {
@@ -76,5 +99,4 @@ public class MainTest {
 
         Assert.assertTrue(4 == tenants.length);
     }
-
 }

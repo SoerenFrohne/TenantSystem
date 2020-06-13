@@ -17,6 +17,7 @@ public class Tenant implements IMenuItem {
     private String phoneNumber;
     private String iban;
     private LocalDate birthday;
+    private Building building;
 
     public void setAddress(String address) {
         if (Utils.validateAddress(address)) this.address = address;

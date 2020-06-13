@@ -20,10 +20,10 @@ public class DatabaseMock {
         //final Mockery context = new Mockery();
         final Statement statement = Mockito.mock(Statement.class);
         final Tenant[] sampleTenants = {
-                new Tenant("Andreas", "Duschanek", "Musterstraße 4", "012345 6780", "DE92 4552 45550 32", LocalDate.of(1990, 12, 31)),
-                new Tenant("Christian", "Mahr", "Musterstraße 4", "012345 6780", "DE92 4552 45550 32", LocalDate.of(1990, 12, 31)),
-                new Tenant("Sören", "Frohne", "Musterstraße 4", "012345 6780", "DE92 4552 45550 32", LocalDate.of(1990, 12, 31)),
-                new Tenant("Jonas", "Schnettker", "Musterstraße 4", "012345 6780", "DE92 4552 45550 32", LocalDate.of(1990, 12, 31))
+                new Tenant("Andreas", "Duschanek", "Musterstraße 4", "012345 6780", "DE92 4552 45550 32", LocalDate.of(1990, 12, 31), null),
+                new Tenant("Christian", "Mahr", "Musterstraße 4", "012345 6780", "DE92 4552 45550 32", LocalDate.of(1990, 12, 31), null),
+                new Tenant("Sören", "Frohne", "Musterstraße 4", "012345 6780", "DE92 4552 45550 32", LocalDate.of(1990, 12, 31), null),
+                new Tenant("Jonas", "Schnettker", "Musterstraße 4", "012345 6780", "DE92 4552 45550 32", LocalDate.of(1990, 12, 31), null)
         };
 
         //behaviour of tenant return

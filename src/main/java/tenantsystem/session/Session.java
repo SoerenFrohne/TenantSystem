@@ -55,4 +55,31 @@ public enum Session {
         else
             throw new Exception("Not Updated");
     }
+
+    public boolean updatePhoneNumber (Tenant p, String phoneNumber){
+
+        if (p == null)
+            return false;
+
+        if (utils.validatePhoneNumber(phoneNumber)) {
+            p.setPhoneNumber(phoneNumber);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean updateIban (Tenant p, String iban){
+
+        if (p == null)
+            return false;
+
+        if (utils.validateIban(iban)){
+            p.setIban(iban);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

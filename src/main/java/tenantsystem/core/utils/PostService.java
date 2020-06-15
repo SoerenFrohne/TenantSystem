@@ -13,4 +13,5 @@ import tenantsystem.core.Tenant;
  */
 public interface PostService {
     void sendBills(Tenant[] tenants);
+    boolean checkAddress(String address);
 }

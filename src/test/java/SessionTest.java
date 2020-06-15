@@ -9,6 +9,7 @@ import tenantsystem.core.utils.Calculator;
 import tenantsystem.core.utils.PostService;
 import tenantsystem.session.Session;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class SessionTest {
@@ -27,6 +28,8 @@ public class SessionTest {
     /**
      * Procedural Behavior Verification: Über einen TestSpy werden die benötigten Angaben aufgenommen
      * und können so mit den Erwartungswerten verglichen werden.
+     *
+     * Soll fehlschlagen, da kein PostServiceSpy realisiert wurde
      */
     @Test
     public void testSendingFuelBillsByPBV() {
@@ -47,7 +50,7 @@ public class SessionTest {
      * Expected Behavior Verification: Einfacher Methodenaufruf
      */
     @Test
-    public void testSendingFuelBills() {
+    public void testSendingFuelBills() throws SQLException {
 
         // setup: Konfigurieren der Mocks (Calculator liegt als Interface vor)
         Calculator calculator = Mockito.mock(Calculator.class);
@@ -60,20 +63,27 @@ public class SessionTest {
 
         // verify: Überprüfung, ob die Berechnungsmethode des Calculators aufgerufen wird
         Mockito.verify(calculator)
-                .calculateFuelBill(sut.getCurrentBuilding());
+                .calculateFuelBill(testBuilding);
+        Mockito.verify(postService)
+                .sendBills(testBuilding.getTenants().toArray(new Tenant[0]));
     }
 
     /**
-     * Methodenaufruf mit expliziten Verhalten
+     * Methodenaufrufe mit expliziten Verhalten (Soll fehlschlagen
      */
     @Test
     public void testSendingFuelBillsWithExplicitPrice() {
 
-        // setup: Konfigurieren der Mocks (Calculator liegt als Interface vor)
+        // setup:
+        // Konfigurieren der Mocks
         Calculator calculator = Mockito.mock(Calculator.class);
+        PostService postService = Mockito.mock(PostService.class);
         sut.setCalculator(calculator);
+        sut.setPostService(postService);
 
-        // exercise: Ausführen der Logik
+        // exercise:
+        // Ausführen der Logik
+        sut.sendFuelBills();
         sut.sendFuelBills();
 
         // Wenn die Berechnungsmethode aufgerufen wird, soll diese zunächst 8750€ als Ergebnis zurückgeben.
@@ -82,6 +92,14 @@ public class SessionTest {
                 .thenReturn(8750d)
                 .thenReturn(1750d);
 
+        // verify:
+        // Überprüfe, ob Methode zwei Mal aufgerufen wird
+        Mockito.verify(calculator, Mockito.times(2))
+                .calculateFuelBill(sut.getCurrentBuilding());
+
+        // Überprüfe, ob checkAdress-Methode mit irgeneinen String aufgerufen wird.
+        // Test sollte fehlschlagen
+        Mockito.verify(postService).checkAddress(Mockito.anyString());
     }
 
 

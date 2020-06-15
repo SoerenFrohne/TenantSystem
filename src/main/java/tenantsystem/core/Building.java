@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 @Data
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class Building implements IMenuItem {
     @NonNull private String streetAddress;
     @NonNull private String postalCode;

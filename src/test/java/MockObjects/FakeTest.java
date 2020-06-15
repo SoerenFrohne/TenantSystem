@@ -1,9 +1,7 @@
 package MockObjects;
 
-import org.junit.Before;
 import org.junit.Test;
 import tenantsystem.core.Apartment;
-import tenantsystem.db.DatabaseMock;
 import tenantsystem.db.DatabaseService;
 
 import java.sql.SQLException;

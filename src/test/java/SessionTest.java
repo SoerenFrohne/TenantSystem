@@ -4,20 +4,43 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import tenantsystem.core.Building;
+import tenantsystem.core.Tenant;
 import tenantsystem.core.utils.Calculator;
 import tenantsystem.core.utils.PostService;
 import tenantsystem.session.Session;
 
+import java.time.LocalDate;
+
 public class SessionTest {
 
     private Session sut;
-    private Calculator calculator;
     private final Building testBuilding = new Building("Musterstraße 1", "55675", "Mustercity", "Auenland", "Mittelerde");
+    private final Tenant testTenant = new Tenant("Max", "Mustermann", "Musterstraße 3", "1234", "12345", LocalDate.of(1990, 12, 31));
 
     @Before
     public void setUp() {
         sut = Session.INSTANCE;
         sut.setCurrentBuilding(testBuilding);
+        sut.setCurrentTenant(testTenant);
+    }
+
+    /**
+     * Procedural Behavior Verification: Über einen TestSpy werden die benötigten Angaben aufgenommen
+     * und können so mit den Erwartungswerten verglichen werden.
+     */
+    @Test
+    public void testSendingFuelBillsByPBV() {
+
+        // setup: Erstellen der Spy-Objekte
+        CalculatorSpy calculator = new CalculatorSpy();
+        sut.setCalculator(calculator);
+
+        // exercise: Ausführen der Logik
+        sut.sendFuelBills();
+
+        // verify: Überprüfung, ob die Berechnungsmethode des Calculators aufgerufen wurde, indem das Spy-Objekt untersucht wird.
+        Assert.assertEquals("number of calls", 1, calculator.getNumberOfCalls());
+        Assert.assertEquals("Action", "calculateFuelBill", calculator.getAction());
     }
 
     /**
@@ -60,26 +83,6 @@ public class SessionTest {
                 .thenReturn(1750d);
 
     }
-
-    /**
-     * Procedural Behavior Verification: Über einen TestSpy werden die benötigten Angaben aufgenommen
-     * und können so mit den Erwartungswerten verglichen werden.
-     */
-    @Test
-    public void testSendingFuelBillsByPBV() {
-
-        // setup: Erstellen der Spy-Objekte
-        CalculatorSpy calculator = new CalculatorSpy();
-        sut.setCalculator(calculator);
-
-        // exercise: Ausführen der Logik
-        sut.sendFuelBills();
-
-        // verify: Überprüfung, ob die Berechnungsmethode des Calculators aufgerufen wurde, indem das Spy-Objekt untersucht wird.
-        Assert.assertEquals("number of calls", 1, calculator.getNumberOfCalls());
-        Assert.assertEquals("Action", "calculateFuelBill", calculator.getAction());
-    }
-
 
 
 }

@@ -1,7 +1,5 @@
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.mockito.ArgumentMatcher;
 import tenantsystem.core.Tenant;
 
 public class TenantMatcher extends BaseMatcher<Tenant>   {
@@ -21,15 +19,15 @@ public class TenantMatcher extends BaseMatcher<Tenant>   {
     @Override
     public void describeMismatch(Object item, Description mismatchDescription) {
 
-        mismatchDescription.appendText("\nAddress: " + ((Tenant)item).getAddress() + "\n"+
-                                        "Iban: " + ((Tenant)item).getIban() + "\n"+
-                                        "PhonenNumber: " + ((Tenant)item).getPhoneNumber());
+        mismatchDescription.appendText("\nAddress:      " + ((Tenant)item).getAddress() + "\n"+
+                                        "Iban:          " + ((Tenant)item).getIban() + "\n"+
+                                        "PhonenNumber:  " + ((Tenant)item).getPhoneNumber());
     }
 
     @Override
     public void describeTo(Description description) {
-        description.appendText("\nAddress: " + expectedTenant.getAddress() + "\n" +
-                                "Iban: " + expectedTenant.getIban()+ "\n" +
-                                "PhoneNumber: " + expectedTenant.getPhoneNumber());
+        description.appendText("\nAddress:      " + expectedTenant.getAddress() + "\n" +
+                                "Iban:          " + expectedTenant.getIban()+ "\n" +
+                                "PhoneNumber:   " + expectedTenant.getPhoneNumber());
     }
 }

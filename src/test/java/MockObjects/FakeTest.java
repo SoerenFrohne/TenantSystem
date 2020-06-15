@@ -1,18 +1,28 @@
 package MockObjects;
 
 import org.junit.Before;
+import org.junit.Test;
+import tenantsystem.core.Apartment;
 import tenantsystem.db.DatabaseMock;
 import tenantsystem.db.DatabaseService;
 
+import java.sql.SQLException;
 import java.sql.Statement;
 
-public class FakeTest {
-    private Statement db;
-    private final DatabaseService databaseService = new DatabaseService();
+import static org.junit.Assert.*;
 
-    @Before
-    public void setUp() throws Exception {
-        db = new DatabaseMock().createDatabase();
-        databaseService.setStatement(db);
+public class FakeTest {
+    private Statement fakeStatement = new FakeStatement();
+    private final DatabaseService databaseService = new DatabaseService();
+    private Apartment[] apartments;
+
+    @Test
+    public void testDataQuery(){
+        try {
+            databaseService.setStatement(fakeStatement);
+            assertNull(databaseService.readApartments());
+        } catch (SQLException throwables) {
+            fail(throwables.toString());
+        }
     }
 }

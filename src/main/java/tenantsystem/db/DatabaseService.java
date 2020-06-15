@@ -16,6 +16,9 @@ public class DatabaseService {
 
     public Apartment[] readApartments() throws SQLException {
         ResultSet result = statement.executeQuery("SELECT * FROM APARTMENTS");
+        if(result == null){
+            return null;
+        }
 
         ArrayList<Apartment> apartments = new ArrayList<>();
 

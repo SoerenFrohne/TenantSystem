@@ -1,7 +1,6 @@
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import tenantsystem.core.Building;
 import tenantsystem.core.Tenant;
@@ -61,7 +60,7 @@ public class SessionTest {
         // exercise: Ausführen der Logik
         sut.sendFuelBills();
 
-        // verify: Überprüfung, ob die Berechnungsmethode des Calculators aufgerufen wird
+        // verify: Überprüfung, ob die Methoden aufgerufen werden
         Mockito.verify(calculator)
                 .calculateFuelBill(testBuilding);
         Mockito.verify(postService)

@@ -68,7 +68,9 @@ public class SessionTest {
     }
 
     /**
-     * Methodenaufrufe mit expliziten Verhalten (Soll fehlschlagen
+     * Methodenaufrufe mit expliziten Verhalten
+     *
+     * Soll fehlschlagen, da checkAddress-Methode nicht aufgerufen wird
      */
     @Test
     public void testSendingFuelBillsWithExplicitPrice() {

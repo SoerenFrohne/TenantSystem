@@ -18,7 +18,7 @@ public class Building implements IMenuItem {
     @NonNull private String country;
 
     private ArrayList<Tenant> tenants = new ArrayList<>();
-    private ArrayList<Tenant> apartments = new ArrayList<>();
+    private ArrayList<Apartment> apartments = new ArrayList<>();
     private HashMap<Tenant, Apartment> apartmentTenantMap = new HashMap<>();
 
     public Apartment getApartment(Tenant t) {

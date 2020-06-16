@@ -24,20 +24,21 @@ public class MainTest {
         final Utils utils = Mockito.mock(Utils.class);
         Session session = Session.INSTANCE;
         session.setUtils(utils);
+        session.setCurrentTenant(actualTenat);
 
         Mockito.when(utils.validateAddress("abc")).thenReturn(true);
         try {
-            session.updateAddress(actualTenat, "abc");
+            session.updateAddress("abc");
         }
         catch (Exception e) {
             fail("not expected");
         }
-        Assert.assertEquals("abc", actualTenat.getAddress());
+        Assert.assertEquals("abc", session.getCurrentTenant().getAddress());
 
 
         Mockito.when(utils.validateAddress(anyString())).thenReturn(false);
         try {
-              session.updateAddress(actualTenat, "XXX");
+              session.updateAddress("XXX");
               fail("No Exeption thrown on UpdateAddress");              //only reached when Exception is not thrown
         }
         catch (Exception e) {
@@ -60,12 +61,13 @@ public class MainTest {
         Utils utils = Mockito.mock(Utils.class);
         Session session = Session.INSTANCE;
         session.setUtils(utils);
+        session.setCurrentTenant(actualTenant);
 
 
         Mockito.when(utils.validateAddress(valideAddress)).thenReturn(true);
         Mockito.when(utils.validateAddress(invalideAddress)).thenReturn(false);
         Mockito.when(utils.validateIban(valideIban)).thenReturn(true);
-        Mockito.when(utils.validateIban(invalidIban)).thenReturn(false);
+        Mockito.when(utils.validateIban(invalidIban)).thenReturn(true);
         Mockito.when(utils.validatePhoneNumber(validPhoneNumber)).thenReturn(true);
         Mockito.when(utils.validatePhoneNumber(invalidPhoneNumber)).thenReturn(false);
 
@@ -78,20 +80,20 @@ public class MainTest {
 
         //Schreiben einer validen Adresse
         try {
-            session.updateAddress(actualTenant, valideAddress);
+            session.updateAddress(valideAddress);
         }catch (Exception e){
         }
         //Adress Attribute überprüfen.
-        Assert.assertEquals("check new Address",valideAddress, actualTenant.getAddress());
+        Assert.assertEquals("check new Address",valideAddress, session.getCurrentTenant().getAddress());
 
 
         //Versuch eine invalide Adresse zu setzen!
         try {
-            session.updateAddress(actualTenant, invalideAddress);
+            session.updateAddress(invalideAddress);
         }catch (Exception e){
         }
         //Adresse darf sich verändert haben.
-        Assert.assertEquals("check invalid Address", valideAddress, actualTenant.getAddress());
+        Assert.assertEquals("check invalid Address", valideAddress, session.getCurrentTenant().getAddress());
 
 
         /*
@@ -99,20 +101,20 @@ public class MainTest {
          * Funktion liefert keine Expception sondern ein boolean als Rückgabewert.
          */
         //valide Eingabe
-        session.updatePhoneNumber(actualTenant, validPhoneNumber);
-        Assert.assertEquals("check new phone number",validPhoneNumber, actualTenant.getPhoneNumber());
+        session.updatePhoneNumber(validPhoneNumber);
+        Assert.assertEquals("check new phone number",validPhoneNumber, session.getCurrentTenant().getPhoneNumber());
 
         //invalide Eingabe
-        session.updatePhoneNumber(actualTenant, invalidPhoneNumber);
-        Assert.assertEquals("check invalid phone number",validPhoneNumber, actualTenant.getPhoneNumber());
+        session.updatePhoneNumber(invalidPhoneNumber);
+        Assert.assertEquals("check invalid phone number",validPhoneNumber, session.getCurrentTenant().getPhoneNumber());
 
         //valide Eingabe
-        session.updateIban(actualTenant, valideIban);
-        Assert.assertEquals("check new Iban", valideIban, actualTenant.getIban());
+        session.updateIban(valideIban);
+        Assert.assertEquals("check new Iban", valideIban, session.getCurrentTenant().getIban());
 
         //invalide Eingabe
-        session.updateIban(actualTenant, invalidIban);
-        Assert.assertEquals("ckeck invalide Iban", valideIban, actualTenant.getIban());
+        session.updateIban(invalidIban);
+        Assert.assertEquals("ckeck invalide Iban", valideIban, session.getCurrentTenant().getIban());
     }
 
     @Test
@@ -130,6 +132,7 @@ public class MainTest {
         Utils utils = Mockito.mock(Utils.class);
         Session session = Session.INSTANCE;
         session.setUtils(utils);
+        session.setCurrentTenant(actualTenant);
 
 
         Mockito.when(utils.validateAddress(expectedTenant.getAddress())).thenReturn(true);
@@ -144,29 +147,29 @@ public class MainTest {
          */
 
         try {
-            session.updateAddress(actualTenant, expectedTenant.getAddress());
-            session.updateIban(actualTenant, expectedTenant.getIban());
-            session.updatePhoneNumber(actualTenant, expectedTenant.getPhoneNumber());
+            session.updateAddress(expectedTenant.getAddress());
+            session.updateIban(expectedTenant.getIban());
+            session.updatePhoneNumber(expectedTenant.getPhoneNumber());
         }catch (Exception e){
         }
 
         //Test mit invaliden argumenten
         try {
-            session.updateAddress(actualTenant, invalideAddress);
+            session.updateAddress(invalideAddress);
         }catch (Exception e){
         }
 
-        session.updatePhoneNumber(actualTenant, invalidPhoneNumber);
-        session.updateIban(actualTenant, invalidIban);
+        session.updatePhoneNumber(invalidPhoneNumber);
+        session.updateIban(invalidIban);
 
 
         /* TODO
          * Verweis auf eigenen Matcher.
          * Besonders die Ausgaben sind von Interesse.
          */
-        Assert.assertEquals("End of Test. Check state", expectedTenant, actualTenant);
+        Assert.assertEquals("End of Test. Check state", expectedTenant, session.getCurrentTenant());
 
-        Assert.assertThat(actualTenant, new TenantMatcher(expectedTenant));
+        Assert.assertThat(session.getCurrentTenant(), new TenantMatcher(expectedTenant));
     }
 
 

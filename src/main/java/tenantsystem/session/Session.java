@@ -46,36 +46,36 @@ public enum Session {
     }
 
     //check the address and update it if is valid.
-    public void updateAddress (Tenant p, String newAddress) throws Exception {
-        if (p == null)
+    public void updateAddress (String newAddress) throws Exception {
+        if (currentTenant == null)
             throw new NullPointerException();
 
         if (utils.validateAddress(newAddress))
-            p.setAddress(newAddress);
+            currentTenant.setAddress(newAddress);
         else
             throw new Exception("Not Updated");
     }
 
-    public boolean updatePhoneNumber (Tenant p, String phoneNumber){
+    public boolean updatePhoneNumber (String phoneNumber){
 
-        if (p == null)
+        if (currentTenant == null)
             return false;
 
         if (utils.validatePhoneNumber(phoneNumber)) {
-            p.setPhoneNumber(phoneNumber);
+            currentTenant.setPhoneNumber(phoneNumber);
             return true;
         }
         else
             return false;
     }
 
-    public boolean updateIban (Tenant p, String iban){
+    public boolean updateIban (String iban){
 
-        if (p == null)
+        if (currentTenant == null)
             return false;
 
         if (utils.validateIban(iban)){
-            p.setIban(iban);
+            currentTenant.setIban(iban);
             return true;
         }
         else {

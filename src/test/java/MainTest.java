@@ -79,34 +79,22 @@ public class MainTest {
         */
 
         //Schreiben einer validen Adresse
-        try {
-            session.updateAddress(valideAddress);
-        }catch (Exception e){
-        }
+        session.updateAddress(valideAddress);
         //Adress Attribute überprüfen.
-        Assert.assertEquals("check new Address",valideAddress, session.getCurrentTenant().getAddress());
-
+        Assert.assertEquals("check new Address", valideAddress, session.getCurrentTenant().getAddress());
 
         //Versuch eine invalide Adresse zu setzen!
-        try {
-            session.updateAddress(invalideAddress);
-        }catch (Exception e){
-        }
-        //Adresse darf sich verändert haben.
+        session.updateAddress(invalideAddress);
+        //Adresse darf sich nicht verändert haben.
         Assert.assertEquals("check invalid Address", valideAddress, session.getCurrentTenant().getAddress());
 
-
-        /*
-         *Iban / Telefonnummer updaten.
-         * Funktion liefert keine Expception sondern ein boolean als Rückgabewert.
-         */
         //valide Eingabe
         session.updatePhoneNumber(validPhoneNumber);
-        Assert.assertEquals("check new phone number",validPhoneNumber, session.getCurrentTenant().getPhoneNumber());
+        Assert.assertEquals("check new phone number", validPhoneNumber, session.getCurrentTenant().getPhoneNumber());
 
         //invalide Eingabe
         session.updatePhoneNumber(invalidPhoneNumber);
-        Assert.assertEquals("check invalid phone number",validPhoneNumber, session.getCurrentTenant().getPhoneNumber());
+        Assert.assertEquals("check invalid phone number", validPhoneNumber, session.getCurrentTenant().getPhoneNumber());
 
         //valide Eingabe
         session.updateIban(valideIban);
@@ -136,7 +124,7 @@ public class MainTest {
 
 
         Mockito.when(utils.validateAddress(expectedTenant.getAddress())).thenReturn(true);
-        Mockito.when(utils.validateAddress(invalideAddress)).thenReturn(true);
+        Mockito.when(utils.validateAddress(invalideAddress)).thenReturn(false);
         Mockito.when(utils.validateIban(expectedTenant.getIban())).thenReturn(true);
         Mockito.when(utils.validateIban(invalidIban)).thenReturn(false);
         Mockito.when(utils.validatePhoneNumber(expectedTenant.getPhoneNumber())).thenReturn(true);
@@ -146,28 +134,21 @@ public class MainTest {
          * Erst am Ende des Tests wird überprüft ob das zu testende Objekt den erwarteten Zustand erreicht hat.
          */
 
-        try {
-            session.updateAddress(expectedTenant.getAddress());
-            session.updateIban(expectedTenant.getIban());
-            session.updatePhoneNumber(expectedTenant.getPhoneNumber());
-        }catch (Exception e){
-        }
+        //valide argumente einfügen
+        session.updateAddress(expectedTenant.getAddress());
+        session.updateIban(expectedTenant.getIban());
+        session.updatePhoneNumber(expectedTenant.getPhoneNumber());
 
         //Test mit invaliden argumenten
-        try {
-            session.updateAddress(invalideAddress);
-        }catch (Exception e){
-        }
-
+        session.updateAddress(invalideAddress);
         session.updatePhoneNumber(invalidPhoneNumber);
         session.updateIban(invalidIban);
-
 
         /* TODO
          * Verweis auf eigenen Matcher.
          * Besonders die Ausgaben sind von Interesse.
          */
-        Assert.assertEquals("End of Test. Check state", expectedTenant, session.getCurrentTenant());
+        //Assert.assertEquals("End of Test. Check state", expectedTenant, session.getCurrentTenant());
 
         Assert.assertThat(session.getCurrentTenant(), new TenantMatcher(expectedTenant));
     }

@@ -18,7 +18,6 @@ public class TenantMatcher extends BaseMatcher<Tenant>   {
 
     @Override
     public void describeMismatch(Object item, Description mismatchDescription) {
-
         mismatchDescription.appendText("\nAddress:      " + ((Tenant)item).getAddress() + "\n"+
                                         "Iban:          " + ((Tenant)item).getIban() + "\n"+
                                         "PhonenNumber:  " + ((Tenant)item).getPhoneNumber());

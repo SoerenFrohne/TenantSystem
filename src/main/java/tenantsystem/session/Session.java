@@ -46,14 +46,17 @@ public enum Session {
     }
 
     //check the address and update it if is valid.
-    public void updateAddress (String newAddress) throws Exception {
+    public boolean updateAddress (String newAddress) {
         if (currentTenant == null)
-            throw new NullPointerException();
+            return false;
 
-        if (utils.validateAddress(newAddress))
+        if (utils.validateAddress(newAddress)){
             currentTenant.setAddress(newAddress);
-        else
-            throw new Exception("Not Updated");
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public boolean updatePhoneNumber (String phoneNumber){

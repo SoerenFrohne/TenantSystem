@@ -1,5 +1,6 @@
 package tenantsystem.editor;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +14,7 @@ import tenantsystem.session.Session;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -57,5 +59,13 @@ public class MainFrameControl {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public void addTenant(ActionEvent actionEvent) {
+        Tenant newTenant = new Tenant("Vorname", "Nachname", "Adresse", "", "", LocalDate.now());
+        Session.INSTANCE.getCurrentBuilding().moveIn(new Apartment(),newTenant);
+
+        treeview.getRoot().getChildren().add(new TreeItem<>(newTenant));
+        treeview.refresh();
     }
 }

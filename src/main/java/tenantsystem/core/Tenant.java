@@ -19,12 +19,13 @@ public class Tenant implements IMenuItem {
     private LocalDate birthday;
     private Building building;
 
-    public void setAddress(String address) {
-        if (Utils.validateAddress(address)) this.address = address;
-    }
-
-    public void setIban(String iban) {
-        if(Utils.validateIban(iban)) this.iban = iban;
+    public Tenant(String firstName, String lastName, String address, String phoneNumber, String iban, LocalDate birthday) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.iban = iban;
+        this.birthday = birthday;
     }
 
     @Override

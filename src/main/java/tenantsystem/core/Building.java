@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 public class Building implements IMenuItem {
     @NonNull private String streetAddress;
     @NonNull private String postalCode;

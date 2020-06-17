@@ -17,6 +17,10 @@ public class DatabaseService {
     public Apartment[] readApartments() throws SQLException {
         ResultSet result = statement.executeQuery("SELECT * FROM APARTMENTS");
 
+        if(result == null){
+            return null;
+        }
+
         ArrayList<Apartment> apartments = new ArrayList<>();
 
         while (result.next()) {
@@ -38,10 +42,21 @@ public class DatabaseService {
             tenants.add(
                     new Tenant(result.getString(1), result.getString(2),
                             result.getString(3), result.getString(4),
-                            result.getString(5), result.getDate(6).toLocalDate()));
+                            result.getString(5), result.getDate(6).toLocalDate(), null));
         }
 
         result.close();
         return tenants.toArray(new Tenant[0]);
+    }
+
+    public Tenant readTenant(Tenant tenant) throws SQLException {
+        ResultSet result = statement.executeQuery("SELECT * FROM TENANT WHERE lastName LIKE '" + tenant.getLastName() + "'");
+
+        Tenant tenantResponse = new Tenant(result.getString(1), result.getString(2),
+                result.getString(3), result.getString(4),
+                result.getString(5), result.getDate(6).toLocalDate(), null);
+
+        result.close();
+        return tenantResponse;
     }
 }

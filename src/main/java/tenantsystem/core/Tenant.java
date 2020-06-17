@@ -17,6 +17,16 @@ public class Tenant implements IMenuItem {
     private String phoneNumber;
     private String iban;
     private LocalDate birthday;
+    private Building building;
+
+    public Tenant(String firstName, String lastName, String address, String phoneNumber, String iban, LocalDate birthday) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.iban = iban;
+        this.birthday = birthday;
+    }
 
     @Override
     public String toString() {
